@@ -1,0 +1,61 @@
+
+// Program: React Fibonacci Chart
+// Developer's Site: forexroboteasy.com
+// Development Team: Forex Robot Easy Team
+
+import React, { useState, useEffect } from 'react';
+
+const ReactFibonacciChart = () => {
+  const [barData, setBarData] = useState([]);
+  const [fibonacciLevels, setFibonacciLevels] = useState([]);
+
+  useEffect(() => {
+    // Fetch bar data from API or any other source
+    const fetchBarData = async () => {
+      try {
+        const response = await fetch('https://api.example.com/bars');
+        const data = await response.json();
+        setBarData(data);
+      } catch (error) {
+        console.error('Error fetching bar data:', error);
+      }
+    };
+
+    fetchBarData();
+  }, []);
+
+  useEffect(() => {
+    // Calculate Fibonacci retracement levels for the selected bar
+    const calculateFibonacciLevels = () => {
+      // Replace with your own calculation logic
+      const levels = [0, 23.6, 38.2, 50, 61.8, 76.4, 100, 123.6];
+      setFibonacciLevels(levels);
+    };
+
+    calculateFibonacciLevels();
+  }, [barData]);
+
+  return (
+    <div>
+      <h1>React Fibonacci Chart</h1>
+      <div>
+        <select>
+          <option value='1H'>1 Hour</option>
+          <option value='4H'>4 Hours</option>
+          <option value='1D'>1 Day</option>
+          <option value='1W'>1 Week</option>
+        </select>
+      </div>
+      <div>
+        {fibonacciLevels.map((level) => (
+          <div key={level}>
+            <span>{level}%</span>
+            <span>{barData.includes(level) ? 'Touched' : 'Not touched'}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default ReactFibonacciChart;
